@@ -30,7 +30,7 @@ namespace AB_Utility.FromSceneToEntityConverter
             for (int i = 0; i < containers.Length; i++)
             {
                 var container = containers[i];
-                EcsConverter.ConvertContainer(container, world);
+                EcsConverter.ConvertContainer(container, world, out int newEntity);
             }
 
             return systems;

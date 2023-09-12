@@ -16,7 +16,7 @@ namespace AB_Utility.FromSceneToEntityConverter
             where T : UnityEngine.Object
         {
             var obj = Object.Instantiate(original, position, rotation, parent);
-            ConvertObject(obj as GameObject, world, out int newEntity);
+            ConvertObject(obj as GameObject, world, out newEntity);
             return obj;
         }
 
@@ -25,7 +25,7 @@ namespace AB_Utility.FromSceneToEntityConverter
             where T : UnityEngine.Object
         {
             var obj = Object.Instantiate(original, position, rotation);
-            ConvertObject(obj as GameObject, world, out int newEntity);
+            ConvertObject(obj as GameObject, world, out newEntity);
             return obj;
         }
 
@@ -34,7 +34,7 @@ namespace AB_Utility.FromSceneToEntityConverter
             where T : UnityEngine.Object
         {
             var obj = Object.Instantiate(original, parent, worldPositionStay);
-            ConvertObject(obj as GameObject, world, out int newEntity);
+            ConvertObject(obj as GameObject, world, out newEntity);
             return obj;
         }
 
@@ -43,7 +43,7 @@ namespace AB_Utility.FromSceneToEntityConverter
             where T : UnityEngine.Object
         {
             var obj = Object.Instantiate(original, parent);
-            ConvertObject(obj as GameObject, world, out int newEntity);
+            ConvertObject(obj as GameObject, world, out newEntity);
             return obj;
         }
 
@@ -52,14 +52,14 @@ namespace AB_Utility.FromSceneToEntityConverter
             where T : UnityEngine.Object
         {
             var obj = Object.Instantiate(original);
-            ConvertObject(obj as GameObject, world, out int newEntity);
+            ConvertObject(obj as GameObject, world, out newEntity);
             return obj;
         }
 
         internal static void ConvertContainer(ComponentsContainer container, EcsWorld world, out int newEntity)
         {
             var destroyAfterConversion = container.DestroyAfterConversion;
-            var newEntity = world.NewEntity();
+            newEntity = world.NewEntity();
             var packedEntity = world.PackEntityWithWorld(newEntity);
 
             for (int j = 0; j < container.Converters.Length; j++)
@@ -89,7 +89,7 @@ namespace AB_Utility.FromSceneToEntityConverter
             }
 #endif
 
-            ConvertContainer(container, world, out int newEntity);
+            ConvertContainer(container, world, out newEntity);
         }
     }
 }

@@ -12,55 +12,55 @@ namespace AB_Utility.FromSceneToEntityConverter
     {
         public static T InstantiateAndCreateEntity<T>
         (T original, Vector3 position, Quaternion rotation, Transform parent,
-            EcsWorld world)
+            EcsWorld world, out int newEntity)
             where T : UnityEngine.Object
         {
             var obj = Object.Instantiate(original, position, rotation, parent);
-            ConvertObject(obj as GameObject, world);
+            ConvertObject(obj as GameObject, world, out int newEntity);
             return obj;
         }
 
         public static T InstantiateAndCreateEntity<T>
-            (T original, Vector3 position, Quaternion rotation, EcsWorld world)
+            (T original, Vector3 position, Quaternion rotation, EcsWorld world, out int newEntity)
             where T : UnityEngine.Object
         {
             var obj = Object.Instantiate(original, position, rotation);
-            ConvertObject(obj as GameObject, world);
+            ConvertObject(obj as GameObject, world, out int newEntity);
             return obj;
         }
 
         public static T InstantiateAndCreateEntity<T>
-            (T original, Transform parent, EcsWorld world, bool worldPositionStay)
+            (T original, Transform parent, EcsWorld world, bool worldPositionStay, out int newEntity)
             where T : UnityEngine.Object
         {
             var obj = Object.Instantiate(original, parent, worldPositionStay);
-            ConvertObject(obj as GameObject, world);
+            ConvertObject(obj as GameObject, world, out int newEntity);
             return obj;
         }
 
         public static T InstantiateAndCreateEntity<T>
-            (T original, Transform parent, EcsWorld world)
+            (T original, Transform parent, EcsWorld world, out int newEntity)
             where T : UnityEngine.Object
         {
             var obj = Object.Instantiate(original, parent);
-            ConvertObject(obj as GameObject, world);
+            ConvertObject(obj as GameObject, world, out int newEntity);
             return obj;
         }
 
         public static T InstantiateAndCreateEntity<T>
-            (T original, EcsWorld world)
+            (T original, EcsWorld world, out int newEntity)
             where T : UnityEngine.Object
         {
             var obj = Object.Instantiate(original);
-            ConvertObject(obj as GameObject, world);
+            ConvertObject(obj as GameObject, world, out int newEntity);
             return obj;
         }
 
-        internal static void ConvertContainer(ComponentsContainer container, EcsWorld world)
+        internal static void ConvertContainer(ComponentsContainer container, EcsWorld world, out int newEntity)
         {
             var destroyAfterConversion = container.DestroyAfterConversion;
-            var entity = world.NewEntity();
-            var packedEntity = world.PackEntityWithWorld(entity);
+            var newEntity = world.NewEntity();
+            var packedEntity = world.PackEntityWithWorld(newEntity);
 
             for (int j = 0; j < container.Converters.Length; j++)
             {
@@ -79,7 +79,7 @@ namespace AB_Utility.FromSceneToEntityConverter
             }
         }
 
-        private static void ConvertObject(GameObject obj, EcsWorld world)
+        private static void ConvertObject(GameObject obj, EcsWorld world, out int newEntity)
         {
             var container = obj.GetComponent<ComponentsContainer>();
 #if DEBUG
@@ -89,7 +89,7 @@ namespace AB_Utility.FromSceneToEntityConverter
             }
 #endif
 
-            ConvertContainer(container, world);
+            ConvertContainer(container, world, out int newEntity);
         }
     }
 }
